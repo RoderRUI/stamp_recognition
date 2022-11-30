@@ -3,7 +3,7 @@ import numpy as np
 
 
 def my_stamp():
-    img_t = cv2.imread(r"D:\Ease\9.png", cv2.IMREAD_COLOR)
+    img_t = cv2.imread(r"D:\Ease\9.png", 0)
     window_name = "image"
     source_img_shape = img_t.shape
     img_w = 650
@@ -12,23 +12,26 @@ def my_stamp():
     # cv2.imshow(window_name, resized_img)
     # cv2.waitKey(0)
 
-    red_low = np.array([156, 43, 46])
-    red_high = np.array([179, 255, 255])
-    hsv_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2HSV)
-    mask = cv2.inRange(hsv_img, red_low, red_high)
+    # red_low = np.array([156, 43, 46])
+    # red_high = np.array([179, 255, 255])
+    # hsv_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2HSV)
+    # mask = cv2.inRange(hsv_img, red_low, red_high)
     # 测试圆
 
     # img = cv2.medianBlur(th3, 5)
-    mask_inv = cv2.bitwise_not(mask)
-    # img = mask_inv
-    img = cv2.medianBlur(mask_inv, 5)
+    mask_inv = cv2.bitwise_not(resized_img)
+    img = resized_img
+    # edges = cv2.Canny(img, 100, 200)
+    # img = cv2.medianBlur(mask_inv, 5)
     cv2.imshow(window_name, img)
     cv2.waitKey(0)
     cimg = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    cv2.imshow(window_name, cimg)
+    cv2.waitKey(0)
     # cv2.imshow(window_name, cimg)
     # cv2.waitKey(0)
-    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 50,
-                               param1=1, param2=8, minRadius=45, maxRadius=70)
+    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 150,
+                               param1=100, param2=75, minRadius=45, maxRadius=70)
     print(circles)
     circles = np.uint16(np.around(circles))
     for i in circles[0, :]:
