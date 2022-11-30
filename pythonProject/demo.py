@@ -1,21 +1,27 @@
 import cv2
 import numpy as np
 
+img_url = './Snipaste_2022-11-30_10-39-11.png'
+
 
 def my_stamp():
-    img_t = cv2.imread(r"D:\Ease\9.png", cv2.IMREAD_COLOR)
+    img_t = cv2.imread(img_url, cv2.IMREAD_COLOR)
     window_name = "image"
     source_img_shape = img_t.shape
     img_w = 650
     scale = img_w / source_img_shape[1]
-    resized_img = cv2.resize(img_t, (img_w, int(source_img_shape[0] * scale)), interpolation=cv2.INTER_LINEAR)
+    resized_img = cv2.resize(img_t, (img_w, int(
+        source_img_shape[0] * scale)), interpolation=cv2.INTER_LINEAR)
     # cv2.imshow(window_name, resized_img)
     # cv2.waitKey(0)
 
+    # 234, 51, 37
     red_low = np.array([156, 43, 46])
     red_high = np.array([179, 255, 255])
     hsv_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2HSV)
     mask = cv2.inRange(hsv_img, red_low, red_high)
+    # cv2.imshow(window_name, mask)
+    # cv2.waitKey(0)
     # 测试圆
 
     # img = cv2.medianBlur(th3, 5)
@@ -26,8 +32,8 @@ def my_stamp():
     cimg = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
     # cv2.imshow(window_name, cimg)
     # cv2.waitKey(0)
-    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
-                               param1=50, param2=15, minRadius=45, maxRadius=70)
+    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 200,
+                               param1=50, param2=15, minRadius=0, maxRadius=0)
     print(circles)
     circles = np.uint16(np.around(circles))
     for i in circles[0, :]:
@@ -37,7 +43,6 @@ def my_stamp():
         cv2.circle(cimg, (i[0], i[1]), 2, (0, 0, 255), 3)
     cv2.imshow(window_name, cimg)
     cv2.waitKey(0)
-
 
     # mask_inv = cv2.bitwise_not(mask)
     # cv2.imshow(window_name, mask)
@@ -61,7 +66,8 @@ def black_stamp():
     source_img_shape = img_t.shape
     img_w = 650
     scale = img_w / source_img_shape[1]
-    resized_img = cv2.resize(img_t, (img_w, int(source_img_shape[0] * scale)), interpolation=cv2.INTER_LINEAR)
+    resized_img = cv2.resize(img_t, (img_w, int(
+        source_img_shape[0] * scale)), interpolation=cv2.INTER_LINEAR)
     cv2.imshow(window_name, resized_img)
     cv2.waitKey(0)
 
@@ -70,7 +76,8 @@ def black_stamp():
     # black_high = np.array([169, 169, 169])
     # hsv_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2HSV)
     # mask = cv2.inRange(hsv_img, black_low, black_high)
-    ret3, th3 = cv2.threshold(red_img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    ret3, th3 = cv2.threshold(
+        red_img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     # mask_inv = cv2.bitwise_not(mask)
     # cv2.imshow(window_name, mask)
     # cv2.waitKey(0)
