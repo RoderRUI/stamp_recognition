@@ -20,14 +20,15 @@ def my_stamp():
 
     # img = cv2.medianBlur(th3, 5)
     mask_inv = cv2.bitwise_not(mask)
-    img = mask_inv
-    # cv2.imshow(window_name, img)
-    # cv2.waitKey(0)
+    # img = mask_inv
+    img = cv2.medianBlur(mask_inv, 5)
+    cv2.imshow(window_name, img)
+    cv2.waitKey(0)
     cimg = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
     # cv2.imshow(window_name, cimg)
     # cv2.waitKey(0)
-    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
-                               param1=50, param2=15, minRadius=45, maxRadius=70)
+    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 50,
+                               param1=1, param2=8, minRadius=45, maxRadius=70)
     print(circles)
     circles = np.uint16(np.around(circles))
     for i in circles[0, :]:
