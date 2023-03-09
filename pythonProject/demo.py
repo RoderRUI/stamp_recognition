@@ -150,7 +150,7 @@ def remove_red_ocr(img_path):
     # text_detector = hub.Module(name="chinese_text_detection_db_server", enable_mkldnn=True)
     ocr = hub.Module(name="chinese_ocr_db_crnn_server")  # mkldnn加速仅在CPU下有效
     result = ocr.recognize_text(images=[result_img], visualization=False,
-                                use_gpu=True, box_thresh=0.5,
+                                use_gpu=False, box_thresh=0.5,
                                 text_thresh=0.5,
                                 angle_classification_thresh=0.9)
     reco_results = result[0]['data']
@@ -433,15 +433,3 @@ def black_stamp(img):
     # ret3, th3 = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     # cv2.imshow(window_name, blur)
     # cv2.waitKey(0)
-
-
-if __name__ == '__main__':
-    img_pat = r"C:\Users\liu99\Downloads\3.png"
-    # my_stamp()
-    # black_stamp(img_array)
-    remove_red_ocr(img_pat)
-    # flag = re.match("签订日期.*", "签订日期：2022.6.5")
-    # s = re.findall(r"\d+", "签订日期：2022")
-    # s = "".join(list(filter(str.isdigit, "签订日期：2022.6.5")))
-    # print(s)
-    # print(flag)
